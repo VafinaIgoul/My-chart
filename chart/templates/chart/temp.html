@@ -1,0 +1,41 @@
+<html>
+<head>
+    <title>My Chart</title>
+	<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+</head>
+<body>
+ <script type="text/javascript">
+      google.charts.load('current', {'packages':['corechart']});
+      google.charts.setOnLoadCallback(drawChart);
+      function drawChart() {
+	     var array = new Array(['x_value', 'y-value'])
+
+		 {% if data_list %}
+           {% for data in data_list %}
+             array.push([{{data.x_value}}, {{data.y_value}}])
+          {% endfor %}
+		   var data = google.visualization.arrayToDataTable(array
+        );
+
+        var options = {
+          title: 'x_value vs. y_value comparison',
+          hAxis: {title: 'x_value', minValue: 0, maxValue: 15},
+          vAxis: {title: 'y_value', minValue: 0, maxValue: 15},
+          legend: 'none'
+        };
+
+        var chart = new google.visualization.ScatterChart(document.getElementById('chart_div'));
+
+        chart.draw(data, options);
+		{% else %} {% if not data_list %} document.write("File not load!") {% endif %}
+		 {% endif %}
+       
+  
+	    
+      }
+    </script>
+
+<div id="chart_div" style="width: 900px; height: 500px;"></div>
+<input type="button" value="Вернуться на главную" onclick="javascript:window.location='/'"/>
+</body>
+</html>
